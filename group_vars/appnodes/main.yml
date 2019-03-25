@@ -1,0 +1,24 @@
+# These defaults assume forcing journald persistence, fsync to disk once
+# a second, rate-limiting to 10,000 logs a second, no forwarding to
+# syslog or wall, using 8GB of disk space maximum, using 10MB journal
+# files, keeping only a days worth of logs per journal file, and
+# retaining journal files no longer than a month.
+
+# https://www.freedesktop.org/software/systemd/man/journald.conf.html#RateLimitIntervalSec=
+journald_vars_to_replace:
+- { var: Storage, val: persistent }
+- { var: Compress, val: yes }
+- { var: SyncIntervalSec, val: 1s }
+- { var: RateLimitInterval, val: 0 }
+- { var: RateLimitBurst, val: 0 }
+- { var: SystemMaxUse, val: 1G }
+- { var: SystemMaxFileSize, val: 50M }
+- { var: SystemKeepFree, val: 5G }
+- { var: MaxRetentionSec, val: 1month }
+- { var: MaxFileSec, val: 1day }
+- { var: ForwardToSyslog, val: no }
+- { var: ForwardToWall, val: no }
+
+# https://docs.openshift.com/container-platform/3.9/admin_guide/allocating_node_resources.html
+#openshift_node_kubelet_args:
+#  system-reserved: ['memory={{ appnode_memory }}']

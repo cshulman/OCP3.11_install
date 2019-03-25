@@ -1,0 +1,6 @@
+# HTPasswd Auth
+openshift_master_identity_providers: [{'name': 'htpasswd_auth', 'login': 'true', 'challenge': 'true', 'kind': 'HTPasswdPasswordIdentityProvider'}]
+
+#create htpasswd file & add path here
+openshift_master_htpasswd_file: /etc/ansible/htpasswd.file
+

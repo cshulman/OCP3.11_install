@@ -1,0 +1,32 @@
+# This variable defines the HA method when deploying multiple masters.
+openshift_master_cluster_method=native
+
+[OSEv3:children]
+nodes
+etcd
+
+[OSEv3:vars]
+
+# DNS related entries that differ for each cluster
+openshift_master_default_subdomain=apps.ocp.local
+
+openshift_master_cluster_hostname=master.ocp.local
+openshift_master_cluster_public_hostname=console.ocp.local
+
+#needs to be changed if ip a on host shows overlap in this network
+osm_cluster_network_cidr=172.31.0.0/16
+openshift_portal_net=172.30.0.0/16
+
+[etcd:children]
+masters
+
+[nodes:children]
+masters
+appnodes
+
+[masters]
+master.ocp.local openshift_node_group_name='node-config-master-infra'
+
+[appnodes]
+node.ocp.local openshift_node_group_name='node-config-compute'
+
